@@ -1,4 +1,25 @@
->>> from app import db, models
+from app import db, models
+import datetime
+t = models.Trends(keyword='#hash', woe_id='200630147', woe_code='PH', timestamp = datetime.datetime.utcnow() )
+db.session.add(t)
+
+t = models.Trends(keyword='#hash2', woe_id='2006301472', woe_code='PH', timestamp = datetime.datetime.utcnow() )
+db.session.commit()
+
+trends = models.Trends.query.all()
+
+
+
+
+
+
+
+
+
+
+
+
+
 >>> u = models.User(nickname='john', email='john@email.com', role=models.ROLE_USER)
 >>> db.session.add(u)
 >>> db.session.commit()
