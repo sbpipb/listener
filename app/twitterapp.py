@@ -15,16 +15,11 @@ def get_trending_keywords(country_code):
 
 	
 	if country_code in WOE_ID:
-		# print  "Country exists"+country_code
 		country_exists = True
 	else:
 		country_exists = False
-		# return "Sorry this feature is not available"+country_code
-
-
 
 	if country_exists:
-
 		##this should be turned into a function
 		CONSUMER_KEY = 'd7tKl4qajMQmpwjIbPw'
 		CONSUMER_SECRET ='v5Utf5ewYrKdLe7VIHiNLBiPehSdG5gDoqEbPfHRB8A'
@@ -46,14 +41,13 @@ def get_trending_keywords(country_code):
 	        			
 	        			if subchild['name']:
 	        				julian.append(subchild['name'])
-	        				print subchild['name']
-
+	        				print subchild['name'].encode('utf-8')	        				
 		return 'Got trending keywords from Twitter  in  %s' % country_code;		
 		
 	else:
 		message =  'This feature is not available for this country'
 		result =  message
-		
+		return result
 
 @app.route('/search/<path:keyword>')
 def search_keyword(keyword):
@@ -75,12 +69,3 @@ def search_keyword(keyword):
 			# break
 
 	return 'Search for' + keyword
-
-
-# @app.route('/')
-# def hello_world():
-# 	return 'Welcome to index page!'
-
-# @app.errorhandler(404)
-# def page_not_found(error):
-# 	return render_template('404.html'), 404
