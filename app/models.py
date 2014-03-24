@@ -3,32 +3,31 @@ from app import db
 ROLE_USER = 0
 ROLE_ADMIN = 1
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    nickname = db.Column(db.String(64), unique = True)
-    email = db.Column(db.String(120), unique = True)
-    role = db.Column(db.SmallInteger, default = ROLE_USER)
-    posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
+# class User(db.Model):
+#     id = db.Column(db.Integer, primary_key = True)
+#     nickname = db.Column(db.String(64), unique = True)
+#     email = db.Column(db.String(120), unique = True)
+#     role = db.Column(db.SmallInteger, default = ROLE_USER)
+#     posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
 
-    def __repr__(self):
-        return '<User %r>' % (self.nickname)
+#     def __repr__(self):
+#         return '<User %r>' % (self.nickname)
 
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+# class Post(db.Model):
+#     id = db.Column(db.Integer, primary_key = True)
+#     body = db.Column(db.String(140))
+#     timestamp = db.Column(db.DateTime)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __repr__(self):
-        return '<Post %r>' % (self.body)
+#     def __repr__(self):
+#         return '<Post %r>' % (self.body)
 
 class Trends(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    keyword = db.Column(db.String(140))
-    woe_id = db.Column(db.Integer(10))
+    keyword = db.Column(db.String(140))  
+    woe_id = db.Column(db.Integer)
     woe_code = db.Column(db.String(6))
-    timestamp = db.Column(db.DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    timestamp = db.Column(db.DateTime)    
 
     def __repr__(self):
         return '<Post %r>' % (self.keyword)

@@ -2,6 +2,9 @@ from flask import Flask, render_template, request
 from app import app
 import twitter, json
 from app import views
+
+from app import db, models
+import datetime
 # app = Flask(__name__)  // i don't know what the fuck this means
 
 @app.route('/trends/<path:country_code>') 
@@ -54,12 +57,21 @@ def get_trending_keywords(country_code):
 
 			for child in trends_results:
 
+				if child['locations']:
+					for sub in child['locations']:
+						country_code = sub['woeid']
+						country_name = sub['name']
+
 				if child['trends']:
 		    			for subchild in child['trends']:
 		        			
 		        			if subchild['name']:
 		        				julian.append(subchild['name'])
-		        				print subchild['name'].encode('utf-8')
+		        				# print subchild['name'].encode('utf-8')+subchild['query'].encode('utf-8')+subchild['name'].encode('utf-8')
+		        				
+						t = models.Trends(keyword=subchild['name'].encode('utf-8'), woe_id=country_code, woe_code=country_name, timestamp = datetime.datetime.utcnow() )
+						db.session.add(t)
+						db.session.commit()
 
 			result = 'Got trending keywords from Twitter  in  %s' % country_code;		
 		
