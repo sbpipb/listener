@@ -1,10 +1,22 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from app import app
 import twitter, json
+from app import views
 # app = Flask(__name__)  // i don't know what the fuck this means
 
 @app.route('/trends/<path:country_code>') 
 def get_trending_keywords(country_code):
+	
+	# if views.checkIfLogin() == True:
+	# 	return 'Loginned'
+	# else:
+	# 	return "F"
+	
+	login = views.checkIfLogin()
+	if login == False:
+		return 'False'
+	# else:
+		# return 'true20'
 
 	country_code = country_code.upper()
 	
@@ -34,20 +46,29 @@ def get_trending_keywords(country_code):
 				
 		julian = []
 
-		for child in trends_results:
+		if trends_results:
 
-			if child['trends']:
-	    			for subchild in child['trends']:
-	        			
-	        			if subchild['name']:
-	        				julian.append(subchild['name'])
-	        				print subchild['name'].encode('utf-8')	        				
-		return 'Got trending keywords from Twitter  in  %s' % country_code;		
+			#file uploading
+			# f = request.files['the_file']
+			# f.save()
+
+			for child in trends_results:
+
+				if child['trends']:
+		    			for subchild in child['trends']:
+		        			
+		        			if subchild['name']:
+		        				julian.append(subchild['name'])
+		        				print subchild['name'].encode('utf-8')
+
+			result = 'Got trending keywords from Twitter  in  %s' % country_code;		
 		
 	else:
 		message =  'This feature is not available for this country'
 		result =  message
-		return result
+		# return result
+
+	return render_template('results.html', result=result)
 
 @app.route('/search/<path:keyword>')
 def search_keyword(keyword):
